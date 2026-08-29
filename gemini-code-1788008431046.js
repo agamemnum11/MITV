@@ -450,40 +450,7 @@ function networkSilentSessCache(url, success, fail, param) {
 	}
 }
 
-// -------------------------------------------------------------
-// Оновлені БРОНЕБІЙНІ стилі для списку та ЛОГОТИПІВ
-// -------------------------------------------------------------
-var customCss = '<style>' +
-'#PLUGIN_epg{margin-right:1em}' +
-'.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}' +
-'.PLUGIN.category-full{padding-bottom:10em}' +
-'.PLUGIN .card {width: 100% !important;display: flex !important;flex-direction: row;align-items: center;padding: 10px 15px !important;box-sizing: border-box;background: rgba(255, 255, 255, 0.05);margin-bottom: 6px;border-radius: 8px;transition: background 0.2s, transform 0.2s;position: relative;}' +
-'.PLUGIN .card.focus {background: rgba(255, 215, 0, 0.15) !important;transform: scale(1.01);color: #ffd700 !important;}' +
-'.PLUGIN .card.focus::before {content: \'\';position: absolute;left: 0; top: 0; bottom: 0;width: 6px;background-color: #ffd700;box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);border-radius: 8px 0 0 8px;}' +
-'.PLUGIN .card .card__view {width: 90px !important;height: 55px !important;padding-bottom: 0 !important;position: relative !important;flex-shrink: 0 !important;border-radius: 6px !important;overflow: hidden !important;background-color: rgba(255,255,255,0.08);}' +
-'.PLUGIN .card .card__view img.card__img {position: absolute !important;top: 50% !important;left: 50% !important;transform: translate(-50%, -50%) !important;max-width: 95% !important;max-height: 95% !important;width: auto !important;height: auto !important;object-fit: contain !important;opacity: 1 !important;visibility: visible !important;display: block !important;}' +
-'.PLUGIN .card .card__view div.card__img {position: absolute !important;top: 0 !important;left: 0 !important;width: 100% !important;height: 100% !important;display: flex !important;align-items: center !important;justify-content: center !important;font-size: 16px !important;font-weight: bold !important;opacity: 1 !important;visibility: visible !important;color: #fff !important;text-align: center !important;}' +
-'.PLUGIN .card__title {margin-top: 0;padding-left: 20px;font-size: 1.3em;font-weight: bold;text-align: left;flex-shrink: 0;width: 25%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;color: inherit;}' +
-'.PLUGIN .card__age {flex-grow: 1;display: none;border: none;margin: 0;padding: 0 20px;position: relative;text-align: left;overflow: hidden;}' +
-'.PLUGIN .card__age .card__epg-title {font-size: 1.1em;opacity: 0.8;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}' +
-'.PLUGIN .card__age .card__epg-progress {position: absolute;bottom: -5px; left: 20px; right: 20px;height: 2px;background-color: #ffd700;width: 0%;}' +
-'.PLUGIN .card__icons {position: static !important;display: flex;align-items: center;margin-left: auto;}' +
-'.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}' +
-'.PLUGIN .js-layer--hidden{visibility: hidden}' +
-'.PLUGIN .js-layer--visible{visibility: visible}' +
-'#PLUGIN{float:right;padding: 1.2em 0;width: 30%;}' +
-'.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5}' +
-'.PLUGIN-details__title{font-size:4em;font-weight:700}' +
-'.PLUGIN-details__program{padding-top:4em}' +
-'.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5}' +
-'.PLUGIN-details__program-list>div+div{margin-top:1em}' +
-'.PLUGIN-details__program>div+div{margin-top:2em}' +
-'.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300}' +
-'.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative}' +
-'.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em}' +
-'.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0}' +
-'.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width: 100%}' +
-'</style>';
+var customCss = '<style>#PLUGIN_epg{margin-right:1em}.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}.PLUGIN.category-full{padding-bottom:10em}.PLUGIN .card{width:100% !important;display:flex !important;flex-direction:row !important;align-items:center !important;padding:10px 15px !important;box-sizing:border-box !important;background:rgba(255,255,255,0.05) !important;margin-bottom:6px !important;border-radius:8px !important;transition:background 0.2s,transform 0.2s;position:relative;}.PLUGIN .card.focus{background:rgba(255,215,0,0.15) !important;transform:scale(1.01);color:#ffd700 !important;}.PLUGIN .card.focus::before{content:\'\';position:absolute;left:0;top:0;bottom:0;width:6px;background-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,0.8);border-radius:8px 0 0 8px;}.PLUGIN div.card__view{width:90px !important;height:55px !important;padding:0 !important;position:relative !important;flex-shrink:0 !important;border-radius:6px !important;overflow:hidden !important;background-color:rgba(255,255,255,0.08);display:block !important;}.PLUGIN div.card__view img.card__img{position:absolute !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;object-fit:contain !important;transform:none !important;opacity:1 !important;visibility:visible !important;display:block !important;z-index:5 !important;}.PLUGIN div.card__view div.card__img{position:absolute !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;display:flex !important;align-items:center !important;justify-content:center !important;transform:none !important;font-size:1.4em !important;font-weight:bold !important;color:inherit !important;opacity:1 !important;visibility:visible !important;z-index:5 !important;}.PLUGIN .card__title{margin-top:0 !important;padding-left:20px !important;font-size:1.3em !important;font-weight:bold !important;text-align:left !important;flex-shrink:0 !important;width:25% !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;color:inherit !important;display:block !important;}.PLUGIN .card__age{flex-grow:1 !important;display:none;border:none !important;margin:0 !important;padding:0 20px !important;position:relative !important;text-align:left !important;overflow:hidden !important;}.PLUGIN .card__age .card__epg-title{font-size:1.1em;opacity:0.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.PLUGIN .card__age .card__epg-progress{position:absolute;bottom:-5px;left:20px;right:20px;height:2px;background-color:#ffd700;width:0%;}.PLUGIN .card__icons{position:static !important;display:flex !important;align-items:center !important;margin-left:auto !important;}.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}.PLUGIN .js-layer--hidden{visibility:hidden;}.PLUGIN .js-layer--visible{visibility:visible;}#PLUGIN{float:right;padding:1.2em 0;width:30%;}.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5;}.PLUGIN-details__title{font-size:4em;font-weight:700;}.PLUGIN-details__program{padding-top:4em;}.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5;}.PLUGIN-details__program-list>div+div{margin-top:1em;}.PLUGIN-details__program>div+div{margin-top:2em;}.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300;}.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative;}.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em;}.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0;}.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width:100%;}</style>';
 
 Lampa.Template.add(plugin.component + '_style', customCss.replace(/PLUGIN/g, plugin.component));
 $('body').append(Lampa.Template.get(plugin.component + '_style', {}, true));
