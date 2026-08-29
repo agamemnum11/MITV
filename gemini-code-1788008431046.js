@@ -281,26 +281,12 @@ function catchupUrl(url, type, source) {
 		case 'flussonic-hls':
 		case 'flussonic-ts':
 		case 'fs':
-			// Example stream and catchup URLs
-			// stream:  http://ch01.spr24.net/151/mpegts?token=my_token
-			// catchup: http://ch01.spr24.net/151/timeshift_abs-{utc}.ts?token=my_token
-			// stream:  http://list.tv:8888/325/index.m3u8?token=secret
-			// catchup: http://list.tv:8888/325/timeshift_rel-{offset:1}.m3u8?token=secret
-			// stream:  http://list.tv:8888/325/mono.m3u8?token=secret
-			// catchup: http://list.tv:8888/325/mono-timeshift_rel-{offset:1}.m3u8?token=secret
-			// stream:  http://list.tv:8888/325/live?token=my_token
-			// catchup: http://list.tv:8888/325/{utc}.ts?token=my_token
 			return url
 				.replace(/\/(video|mono)\.(m3u8|ts)/, '/$1-\${start}-\${duration}.$2')
 				.replace(/\/(index|playlist)\.(m3u8|ts)/, '/archive-\${start}-\${duration}.$2')
 				.replace(/\/mpegts/, '/timeshift_abs-\${start}.ts')
 				;
 		case 'xc':
-			// Example stream and catchup URLs
-			// stream:  http://list.tv:8080/my@account.xc/my_password/1477
-			// catchup: http://list.tv:8080/timeshift/my@account.xc/my_password/{duration}/{Y}-{m}-{d}:{H}-{M}/1477.ts
-			// stream:  http://list.tv:8080/live/my@account.xc/my_password/1477.m3u8
-			// catchup: http://list.tv:8080/timeshift/my@account.xc/my_password/{duration}/{Y}-{m}-{d}:{H}-{M}/1477.m3u8
 			newUrl = url
 				.replace(
 					/^(https?:\/\/[^/]+)(\/live)?(\/[^/]+\/[^/]+\/)([^/.]+)\.m3u8?$/,
@@ -325,14 +311,6 @@ function catchupUrl(url, type, source) {
 	return newUrl;
 }
 
-/* ***********************************
- * Управление плеером клавишами пульта
- * ***********************************
- * Поддержка переключения каналов (возможно не все устройства):
- * - цифровыми клавишами (по номеру канала)
- * - клавишами влево-вправо
- * - клавиши Pg+ и Pg-
- */
 function keydown(e) {
 	var code = e.code;
 	if (Lampa.Activity.active().component === plugin.component
@@ -343,35 +321,30 @@ function keydown(e) {
 		if (!isPluginPlaylist(playlist)) return;
 		var isStopEvent = false;
 		var curCh = cache('curCh') || (Lampa.PlayerPlaylist.position() + 1);
-		if (code === 428 || code === 34 // Pg-
-			//4 - Samsung orsay
-			|| ((code === 37 || code === 4) // left
+		if (code === 428 || code === 34 
+			|| ((code === 37 || code === 4) 
 				&& !$('.player.tv .panel--visible .focus').length
 				&& !$('.player.tv .player-footer.open .focus').length
 			)
 		) {
-			curCh = curCh === 1 ? playlist.length : curCh - 1; // зацикливаем
+			curCh = curCh === 1 ? playlist.length : curCh - 1; 
 			cache('curCh', curCh, 1000);
 			isStopEvent = channelSwitch(curCh, true);
-		} else if (code === 427 || code === 33 // Pg+
-			// 5 - Samsung orsay right
-			|| ((code === 39 || code === 5) // right
+		} else if (code === 427 || code === 33 
+			|| ((code === 39 || code === 5) 
 				&& !$('.player.tv .panel--visible .focus').length
 				&& !$('.player.tv .player-footer.open .focus').length
 			)
 		) {
-			curCh = curCh === playlist.length ? 1 : curCh + 1; // зацикливаем
+			curCh = curCh === playlist.length ? 1 : curCh + 1; 
 			cache('curCh', curCh, 1000);
 			isStopEvent = channelSwitch(curCh, true);
-		} else if (code >= 48 && code <= 57) { // numpad
+		} else if (code >= 48 && code <= 57) { 
 			isStopEvent = channelSwitch(code - 48);
-		} else if (code >= 96 && code <= 105) { // numpad
+		} else if (code >= 96 && code <= 105) { 
 			isStopEvent = channelSwitch(code - 96);
 		}
-		//29460 - Samsung orsay
-		if (code === 38 || code === 29460) { // Controller.move('up')
-			// this.selectGroup();
-			// isStopEvent = true;
+		if (code === 38 || code === 29460) { 
 		}
 		if (isStopEvent) {
 			e.event.preventDefault();
@@ -477,8 +450,41 @@ function networkSilentSessCache(url, success, fail, param) {
 	}
 }
 
-//Стиль: Оновлено для відображення списком із золотим фокусом ТА ЛОГОТИПАМИ
-var customCss = '<style>#PLUGIN_epg{margin-right:1em}.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}.PLUGIN.category-full{padding-bottom:10em}.PLUGIN .card {width: 100% !important;display: flex !important;flex-direction: row;align-items: center;padding: 10px 15px !important;box-sizing: border-box;background: rgba(255, 255, 255, 0.05);margin-bottom: 6px;border-radius: 8px;transition: background 0.2s, transform 0.2s;position: relative;}.PLUGIN .card.focus {background: rgba(255, 215, 0, 0.15) !important;transform: scale(1.01);color: #ffd700 !important;}.PLUGIN .card.focus::before {content: \'\';position: absolute;left: 0; top: 0; bottom: 0;width: 6px;background-color: #ffd700;box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);border-radius: 8px 0 0 8px;}.PLUGIN div.card__view {width: 80px !important;height: 50px !important;padding-bottom: 0 !important;position: relative !important;flex-shrink: 0;border-radius: 4px !important;overflow: hidden !important;background-color: rgba(255,255,255,0.05);}.PLUGIN img.card__img {position: absolute !important;top: 0 !important;left: 0 !important;width: 100% !important;height: 100% !important;object-fit: contain !important;transform: none !important;opacity: 1 !important;}.PLUGIN div.card__img {position: absolute !important;top: 0 !important;left: 0 !important;width: 100% !important;height: 100% !important;display: flex !important;align-items: center !important;justify-content: center !important;transform: none !important;font-size: 1.4em !important;font-weight: bold !important;opacity: 1 !important;}.PLUGIN .card__title {margin-top: 0;padding-left: 20px;font-size: 1.3em;font-weight: bold;text-align: left;flex-shrink: 0;width: 25%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;color: inherit;}.PLUGIN .card__age {flex-grow: 1;display: none;border: none;margin: 0;padding: 0 20px;position: relative;text-align: left;overflow: hidden;}.PLUGIN .card__age .card__epg-title {font-size: 1.1em;opacity: 0.8;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}.PLUGIN .card__age .card__epg-progress {position: absolute;bottom: -5px; left: 20px; right: 20px;height: 2px;background-color: #ffd700;width: 0%;}.PLUGIN .card__icons {position: static !important;display: flex;align-items: center;margin-left: auto;}.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}.PLUGIN .js-layer--hidden{visibility: hidden}.PLUGIN .js-layer--visible{visibility: visible}#PLUGIN{float:right;padding: 1.2em 0;width: 30%;}.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5}.PLUGIN-details__title{font-size:4em;font-weight:700}.PLUGIN-details__program{padding-top:4em}.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5}.PLUGIN-details__program-list>div+div{margin-top:1em}.PLUGIN-details__program>div+div{margin-top:2em}.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300}.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative}.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em}.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0}.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width: 100%}</style>';
+// -------------------------------------------------------------
+// Оновлені БРОНЕБІЙНІ стилі для списку та ЛОГОТИПІВ
+// -------------------------------------------------------------
+var customCss = '<style>' +
+'#PLUGIN_epg{margin-right:1em}' +
+'.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}' +
+'.PLUGIN.category-full{padding-bottom:10em}' +
+'.PLUGIN .card {width: 100% !important;display: flex !important;flex-direction: row;align-items: center;padding: 10px 15px !important;box-sizing: border-box;background: rgba(255, 255, 255, 0.05);margin-bottom: 6px;border-radius: 8px;transition: background 0.2s, transform 0.2s;position: relative;}' +
+'.PLUGIN .card.focus {background: rgba(255, 215, 0, 0.15) !important;transform: scale(1.01);color: #ffd700 !important;}' +
+'.PLUGIN .card.focus::before {content: \'\';position: absolute;left: 0; top: 0; bottom: 0;width: 6px;background-color: #ffd700;box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);border-radius: 8px 0 0 8px;}' +
+'.PLUGIN .card .card__view {width: 90px !important;height: 55px !important;padding-bottom: 0 !important;position: relative !important;flex-shrink: 0 !important;border-radius: 6px !important;overflow: hidden !important;background-color: rgba(255,255,255,0.08);}' +
+'.PLUGIN .card .card__view img.card__img {position: absolute !important;top: 50% !important;left: 50% !important;transform: translate(-50%, -50%) !important;max-width: 95% !important;max-height: 95% !important;width: auto !important;height: auto !important;object-fit: contain !important;opacity: 1 !important;visibility: visible !important;display: block !important;}' +
+'.PLUGIN .card .card__view div.card__img {position: absolute !important;top: 0 !important;left: 0 !important;width: 100% !important;height: 100% !important;display: flex !important;align-items: center !important;justify-content: center !important;font-size: 16px !important;font-weight: bold !important;opacity: 1 !important;visibility: visible !important;color: #fff !important;text-align: center !important;}' +
+'.PLUGIN .card__title {margin-top: 0;padding-left: 20px;font-size: 1.3em;font-weight: bold;text-align: left;flex-shrink: 0;width: 25%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;color: inherit;}' +
+'.PLUGIN .card__age {flex-grow: 1;display: none;border: none;margin: 0;padding: 0 20px;position: relative;text-align: left;overflow: hidden;}' +
+'.PLUGIN .card__age .card__epg-title {font-size: 1.1em;opacity: 0.8;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}' +
+'.PLUGIN .card__age .card__epg-progress {position: absolute;bottom: -5px; left: 20px; right: 20px;height: 2px;background-color: #ffd700;width: 0%;}' +
+'.PLUGIN .card__icons {position: static !important;display: flex;align-items: center;margin-left: auto;}' +
+'.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}' +
+'.PLUGIN .js-layer--hidden{visibility: hidden}' +
+'.PLUGIN .js-layer--visible{visibility: visible}' +
+'#PLUGIN{float:right;padding: 1.2em 0;width: 30%;}' +
+'.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5}' +
+'.PLUGIN-details__title{font-size:4em;font-weight:700}' +
+'.PLUGIN-details__program{padding-top:4em}' +
+'.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5}' +
+'.PLUGIN-details__program-list>div+div{margin-top:1em}' +
+'.PLUGIN-details__program>div+div{margin-top:2em}' +
+'.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300}' +
+'.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative}' +
+'.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em}' +
+'.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0}' +
+'.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width: 100%}' +
+'</style>';
+
 Lampa.Template.add(plugin.component + '_style', customCss.replace(/PLUGIN/g, plugin.component));
 $('body').append(Lampa.Template.get(plugin.component + '_style', {}, true));
 
@@ -898,7 +904,7 @@ function pluginPage(object) {
 				var tvgDay = parseInt(
 					channel['catchup-days'] || channel['tvg-rec'] || channel['timeshift']
 					|| listCfg['catchup-days'] || listCfg['tvg-rec'] || listCfg['timeshift']
-					|| '0' // todo вынести в настройки?
+					|| '0' 
 				);
 				if (parseInt('catchup-enable' in channel ? channel['catchup-enable'] : tvgDay) > 0) {
 					card.find('.card__icons-inner').append('<div class="card__icon icon--timeshift"></div>');
@@ -924,7 +930,6 @@ function pluginPage(object) {
 					var playlistForExtrnalPlayer = [];
 					var i = 0;
 					data.forEach(function (elem) {
-						// Изменяем порядок для внешнего плейлиста (плейлист начинается с текущего элемента)
 						var j = i < chI ? data.length - chI + i : i - chI;
 						var videoUrl = i === chI ? video.url : prepareUrl(elem.Url);
 						playlistForExtrnalPlayer[j] = {
@@ -955,7 +960,6 @@ function pluginPage(object) {
 					layerFocusI = chI;
 					if (event.type && event.type !== 'touchstart' && event.type !== 'hover:hover') scroll.update(card, true);
 					last = card[0];
-					// info.find('.info__title-original').text(channel['Group']);
 					info.find('.info__title').text(channel.Title);
 					var ec = $('#' + plugin.component + '_epg');
 					ec.find('.js-epgChannel').text(channel.Title);
@@ -1426,7 +1430,7 @@ function pluginPage(object) {
 		});
 	};
 	this.start = function () {
-		if (Lampa.Activity.active().activity !== this.activity) return; //обязательно, иначе наблюдается баг, активность создается но не стартует, в то время как компонент загружается и стартует самого себя.
+		if (Lampa.Activity.active().activity !== this.activity) return; 
 		var _this = this;
 		Lampa.Controller.add('content', {
 			toggle: function toggle() {
@@ -1775,7 +1779,7 @@ function addSettings(type, param) {
 		component: plugin.component,
 		param: {
 			name: plugin.component + '_' + param.name,
-			type: type, // select|trigger|input|title|static
+			type: type, 
 			values: !param.values ? '' : param.values,
 			placeholder: !param.placeholder ? '' : param.placeholder,
 			default: (typeof param.default === 'undefined') ? '' : param.default
