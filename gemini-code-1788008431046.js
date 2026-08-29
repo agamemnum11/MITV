@@ -136,10 +136,8 @@ function channelSwitch(dig, isChNum) {
 			chTimeout = setTimeout(chSwitch, 1000);
 			chNumber = "";
 		} else if (parseInt(chNumber + '0') > cnt) {
-			// Ещё одна цифра невозможна - переключаем
 			chSwitch();
 		} else {
-			// Ждём следующую цифру или переключаем
 			chTimeout = setTimeout(chSwitch, 3000);
 		}
 	} else {
@@ -270,10 +268,10 @@ function catchupUrl(url, type, source) {
 		case 'append':
 			if (source) {
 				newUrl = (source.search(/^https?:\/\//i) === 0 ? '' : url) + source;
-				break; // так и задумано
+				break; 
 			}
-		case 'timeshift': // @deprecated
-		case 'shift': // + append
+		case 'timeshift': 
+		case 'shift': 
 			newUrl = (source || url);
 			newUrl += (newUrl.indexOf('?') >= 0 ? '&' : '?') + 'utc=${start}&lutc=${timestamp}';
 			return newUrl;
@@ -450,7 +448,7 @@ function networkSilentSessCache(url, success, fail, param) {
 	}
 }
 
-var customCss = '<style>#PLUGIN_epg{margin-right:1em}.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}.PLUGIN.category-full{padding-bottom:10em}.PLUGIN .card{width:100% !important;display:flex !important;flex-direction:row !important;align-items:center !important;padding:10px 15px !important;box-sizing:border-box !important;background:rgba(255,255,255,0.05) !important;margin-bottom:6px !important;border-radius:8px !important;transition:background 0.2s,transform 0.2s;position:relative;}.PLUGIN .card.focus{background:rgba(255,215,0,0.15) !important;transform:scale(1.01);color:#ffd700 !important;}.PLUGIN .card.focus::before{content:\'\';position:absolute;left:0;top:0;bottom:0;width:6px;background-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,0.8);border-radius:8px 0 0 8px;}.PLUGIN div.card__view{width:90px !important;height:55px !important;padding:0 !important;position:relative !important;flex-shrink:0 !important;border-radius:6px !important;overflow:hidden !important;background-color:rgba(255,255,255,0.08);display:block !important;}.PLUGIN div.card__view img.card__img{position:absolute !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;object-fit:contain !important;transform:none !important;opacity:1 !important;visibility:visible !important;display:block !important;z-index:5 !important;}.PLUGIN div.card__view div.card__img{position:absolute !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;display:flex !important;align-items:center !important;justify-content:center !important;transform:none !important;font-size:1.4em !important;font-weight:bold !important;color:inherit !important;opacity:1 !important;visibility:visible !important;z-index:5 !important;}.PLUGIN .card__title{margin-top:0 !important;padding-left:20px !important;font-size:1.3em !important;font-weight:bold !important;text-align:left !important;flex-shrink:0 !important;width:25% !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;color:inherit !important;display:block !important;}.PLUGIN .card__age{flex-grow:1 !important;display:none;border:none !important;margin:0 !important;padding:0 20px !important;position:relative !important;text-align:left !important;overflow:hidden !important;}.PLUGIN .card__age .card__epg-title{font-size:1.1em;opacity:0.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.PLUGIN .card__age .card__epg-progress{position:absolute;bottom:-5px;left:20px;right:20px;height:2px;background-color:#ffd700;width:0%;}.PLUGIN .card__icons{position:static !important;display:flex !important;align-items:center !important;margin-left:auto !important;}.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}.PLUGIN .js-layer--hidden{visibility:hidden;}.PLUGIN .js-layer--visible{visibility:visible;}#PLUGIN{float:right;padding:1.2em 0;width:30%;}.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5;}.PLUGIN-details__title{font-size:4em;font-weight:700;}.PLUGIN-details__program{padding-top:4em;}.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5;}.PLUGIN-details__program-list>div+div{margin-top:1em;}.PLUGIN-details__program>div+div{margin-top:2em;}.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300;}.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative;}.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em;}.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0;}.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width:100%;}</style>';
+var customCss = '<style>#PLUGIN_epg{margin-right:1em}.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}.PLUGIN.category-full{padding-bottom:10em}.PLUGIN .card{width:100% !important;display:flex !important;flex-direction:row !important;align-items:center !important;padding:10px 15px !important;box-sizing:border-box !important;background:rgba(255,255,255,0.05) !important;margin-bottom:6px !important;border-radius:8px !important;transition:background 0.2s,transform 0.2s;position:relative;}.PLUGIN .card.focus{background:rgba(255,215,0,0.15) !important;transform:scale(1.01);color:#ffd700 !important;}.PLUGIN .card.focus::before{content:\'\';position:absolute;left:0;top:0;bottom:0;width:6px;background-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,0.8);border-radius:8px 0 0 8px;}.PLUGIN div.card__view{width:90px !important;height:55px !important;padding:0 !important;position:relative !important;flex-shrink:0 !important;border-radius:6px !important;overflow:hidden !important;background-color:rgba(255,255,255,0.08);background-size:contain !important;background-position:center !important;background-repeat:no-repeat !important;}.PLUGIN .card__title{margin-top:0 !important;padding-left:20px !important;font-size:1.3em !important;font-weight:bold !important;text-align:left !important;flex-shrink:0 !important;width:25% !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;color:inherit !important;display:block !important;}.PLUGIN .card__age{flex-grow:1 !important;display:none;border:none !important;margin:0 !important;padding:0 20px !important;position:relative !important;text-align:left !important;overflow:hidden !important;}.PLUGIN .card__age .card__epg-title{font-size:1.1em;opacity:0.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.PLUGIN .card__age .card__epg-progress{position:absolute;bottom:-5px;left:20px;right:20px;height:2px;background-color:#ffd700;width:0%;}.PLUGIN .card__icons{position:static !important;display:flex !important;align-items:center !important;margin-left:auto !important;}.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}.PLUGIN .js-layer--hidden{visibility:hidden;}.PLUGIN .js-layer--visible{visibility:visible;}#PLUGIN{float:right;padding:1.2em 0;width:30%;}.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5;}.PLUGIN-details__title{font-size:4em;font-weight:700;}.PLUGIN-details__program{padding-top:4em;}.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5;}.PLUGIN-details__program-list>div+div{margin-top:1em;}.PLUGIN-details__program>div+div{margin-top:2em;}.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300;}.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative;}.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em;}.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0;}.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width:100%;}</style>';
 
 Lampa.Template.add(plugin.component + '_style', customCss.replace(/PLUGIN/g, plugin.component));
 $('body').append(Lampa.Template.get(plugin.component + '_style', {}, true));
@@ -622,7 +620,6 @@ function pluginPage(object) {
 						} else if (!!(m = l[i].match(/^#EXTVLCOPT:\s*([^\s=]+)=(.+)$/i))) {
 							channel.Options[m[1].trim().toLowerCase()] = m[2].trim();
 						}
-						// else if (!!(m = l[i].match(/^(https?|udp|rt[ms]?p|mms|acestream):\/\/(.+)$/i))) {
 						else if (!!(m = l[i].match(/^(https?):\/\/(.+)$/i))) {
 							channel.Url = m[0].trim();
 							channel.isYouTube = !!(m[2].match(/^(www\.)?youtube\.com/));
@@ -677,7 +674,6 @@ function pluginPage(object) {
 				listUrl,
 				compileList,
 				function () {
-					// Возможно ошибка из-за CORS пробуем silent запрос через CORS прокси
 					network.silent(
 						Lampa.Utils.protocol() + 'epg.rootu.top/cors.php?url=' + encodeURIComponent(listUrl)
 						+ '&uid=' + utils.uid() + '&sig=' + generateSigForString(listUrl),
@@ -826,7 +822,6 @@ function pluginPage(object) {
 		var catEpg = [];
 		var chIndex = 0;
 		var _this2 = this;
-		var lazyLoadImg = ('loading' in HTMLImageElement.prototype);
 		layerCards = null;
 		var bulkFn = bulkWrapper(function (channel) {
 				var chI = chIndex++;
@@ -840,12 +835,16 @@ function pluginPage(object) {
 					.addClass('js-layer--hidden')
 				;
 				if (chI < layerCnt) card.addClass('js-layer--visible');
-				var img = card.find('.card__img')[0];
-				if (lazyLoadImg) img.loading = (chI < 18 ? 'eager' : 'lazy');
-				img.onload = function () {
+				
+				// ЗМІНА ДЛЯ ЛОГОТИПІВ ТУТ: Видаляємо img і використовуємо background-image
+				var imgWrapper = card.find('.card__view');
+				card.find('.card__img').remove(); // Видаляємо стандартний тег img
+				
+				if (channel['tvg-logo']) {
+					imgWrapper.css('background-image', 'url("' + channel['tvg-logo'] + '")');
 					card.addClass('card--loaded');
-				};
-				img.onerror = function (e) {
+				} else {
+					// Якщо лого немає, генеруємо текстову заглушку
 					var name = channel.Title
 						.replace(/\s+\(([+-]?\d+)\)/, ' $1').replace(/[-.()\s]+/g, ' ').replace(/(^|\s+)(TV|ТВ)(\s+|$)/i, '$3');
 					var fl = name.replace(/\s+/g, '').length > 5
@@ -860,12 +859,12 @@ function pluginPage(object) {
 						g = parseInt(hex.slice(2, 4), 16),
 						b = parseInt(hex.slice(4, 6), 16);
 					var hexText = (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? '#000000' : '#FFFFFF';
-					card.find('.card__img').replaceWith('<div class="card__img">' + fl + '</div>');
-					card.find('.card__view').css({'background-color': '#' + hex, 'color': hexText});
-					channel['tvg-logo'] = '';
+					
+					imgWrapper.css({'background-color': '#' + hex});
+					imgWrapper.append('<div style="color:' + hexText + '; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2em;">' + fl + '</div>');
 					card.addClass('card--loaded');
-				};
-				if (channel['tvg-logo']) img.src = channel['tvg-logo'];else img.onerror();
+				}
+
 				var favIcon = $('<div class="card__icon icon--book hide"></div>');
 				card.find('.card__icons-inner').append(favIcon);
 				var tvgDay = parseInt(
