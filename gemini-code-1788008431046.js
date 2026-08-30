@@ -261,17 +261,16 @@ function catchupUrl(url, type, source) {
 		}
 		else if (url.indexOf('${') < 0) type = 'shift';
 		else type = 'default';
-		console.log(plugin.name, 'Autodetect catchup-type "' + type + '"');
 	}
 	var newUrl = '';
 	switch (type) {
 		case 'append':
 			if (source) {
 				newUrl = (source.search(/^https?:\/\//i) === 0 ? '' : url) + source;
-				break;
+				break; 
 			}
-		case 'timeshift':
-		case 'shift':
+		case 'timeshift': 
+		case 'shift': 
 			newUrl = (source || url);
 			newUrl += (newUrl.indexOf('?') >= 0 ? '&' : '?') + 'utc=${start}&lutc=${timestamp}';
 			return newUrl;
@@ -302,7 +301,6 @@ function catchupUrl(url, type, source) {
 		case 'disabled':
 			return false;
 		default:
-			console.log(plugin.name, 'Err: no support catchup-type="' + type + '"');
 			return false;
 	}
 	if (newUrl.indexOf('${') < 0) return catchupUrl(newUrl,'shift');
@@ -319,30 +317,28 @@ function keydown(e) {
 		if (!isPluginPlaylist(playlist)) return;
 		var isStopEvent = false;
 		var curCh = cache('curCh') || (Lampa.PlayerPlaylist.position() + 1);
-		if (code === 428 || code === 34
-			|| ((code === 37 || code === 4)
+		if (code === 428 || code === 34 
+			|| ((code === 37 || code === 4) 
 				&& !$('.player.tv .panel--visible .focus').length
 				&& !$('.player.tv .player-footer.open .focus').length
 			)
 		) {
-			curCh = curCh === 1 ? playlist.length : curCh - 1;
+			curCh = curCh === 1 ? playlist.length : curCh - 1; 
 			cache('curCh', curCh, 1000);
 			isStopEvent = channelSwitch(curCh, true);
-		} else if (code === 427 || code === 33
-			|| ((code === 39 || code === 5)
+		} else if (code === 427 || code === 33 
+			|| ((code === 39 || code === 5) 
 				&& !$('.player.tv .panel--visible .focus').length
 				&& !$('.player.tv .player-footer.open .focus').length
 			)
 		) {
-			curCh = curCh === playlist.length ? 1 : curCh + 1;
+			curCh = curCh === playlist.length ? 1 : curCh + 1; 
 			cache('curCh', curCh, 1000);
 			isStopEvent = channelSwitch(curCh, true);
-		} else if (code >= 48 && code <= 57) {
+		} else if (code >= 48 && code <= 57) { 
 			isStopEvent = channelSwitch(code - 48);
-		} else if (code >= 96 && code <= 105) {
+		} else if (code >= 96 && code <= 105) { 
 			isStopEvent = channelSwitch(code - 96);
-		}
-		if (code === 38 || code === 29460) {
 		}
 		if (isStopEvent) {
 			e.event.preventDefault();
@@ -448,8 +444,7 @@ function networkSilentSessCache(url, success, fail, param) {
 	}
 }
 
-/* ===== СТИЛІ: список замість плиток + золотий фокус + фіксований розмір лого ===== */
-var customCss = '<style>#PLUGIN_epg{margin-right:1em}.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}.PLUGIN.category-full{padding-bottom:10em}.PLUGIN .card{width:100% !important;display:flex !important;flex-direction:row !important;align-items:center !important;padding:10px 15px !important;box-sizing:border-box !important;background:rgba(255,255,255,0.05) !important;margin-bottom:6px !important;border-radius:8px !important;transition:background 0.2s,transform 0.2s;position:relative;}.PLUGIN .card.focus{background:rgba(255,215,0,0.15) !important;transform:scale(1.01);color:#ffd700 !important;}.PLUGIN .card.focus::before{content:\'\';position:absolute;left:0;top:0;bottom:0;width:6px;background-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,0.8);border-radius:8px 0 0 8px;}.PLUGIN div.card__view{width:90px !important;height:55px !important;padding:0 !important;position:relative !important;flex-shrink:0 !important;border-radius:6px !important;overflow:hidden !important;background-color:rgba(255,255,255,0.08);}.PLUGIN img.card__img,.PLUGIN div.card__img{background-color:unset !important;border-radius:unset !important;position:absolute !important;top:50% !important;left:50% !important;-moz-transform:translate(-50%,-50%) !important;-webkit-transform:translate(-50%,-50%) !important;transform:translate(-50%,-50%) !important;max-height:92% !important;max-width:92% !important;height:auto !important;width:auto !important;font-size:1em !important;}.PLUGIN .card__title{margin-top:0 !important;padding-left:20px !important;font-size:1.3em !important;font-weight:bold !important;text-align:left !important;flex-shrink:0 !important;width:25% !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;color:inherit !important;display:block !important;}.PLUGIN .card__age{flex-grow:1 !important;display:none;border:none !important;margin:0 !important;padding:0 20px !important;position:relative !important;text-align:left !important;overflow:hidden !important;}.PLUGIN .card__age .card__epg-title{font-size:1.1em;opacity:0.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.PLUGIN .card__age .card__epg-progress{position:absolute;bottom:-5px;left:20px;right:20px;height:2px;background-color:#ffd700;width:0%;}.PLUGIN .card__icons{position:static !important;display:flex !important;align-items:center !important;margin-left:auto !important;}.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}.PLUGIN .js-layer--hidden{visibility:hidden;}.PLUGIN .js-layer--visible{visibility:visible;}#PLUGIN{float:right;padding:1.2em 0;width:30%;}.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5;}.PLUGIN-details__title{font-size:4em;font-weight:700;}.PLUGIN-details__program{padding-top:4em;}.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5;}.PLUGIN-details__program-list>div+div{margin-top:1em;}.PLUGIN-details__program>div+div{margin-top:2em;}.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300;}.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative;}.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em;}.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0;}.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width:100%;}</style>';
+var customCss = '<style>#PLUGIN_epg{margin-right:1em}.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}.PLUGIN.category-full{padding-bottom:10em}.PLUGIN .card{width:100% !important;display:flex !important;flex-direction:row !important;align-items:center !important;padding:10px 15px !important;box-sizing:border-box !important;background:rgba(255,255,255,0.05) !important;margin-bottom:6px !important;border-radius:8px !important;transition:background 0.2s,transform 0.2s;position:relative;}.PLUGIN .card.focus{background:rgba(255,215,0,0.15) !important;transform:scale(1.01);color:#ffd700 !important;}.PLUGIN .card.focus::before{content:\'\';position:absolute;left:0;top:0;bottom:0;width:6px;background-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,0.8);border-radius:8px 0 0 8px;}.PLUGIN div.card__view{width:90px !important;height:55px !important;padding:0 !important;position:relative !important;flex-shrink:0 !important;border-radius:6px !important;overflow:hidden !important;background-color:rgba(255,255,255,0.08);background-size:contain !important;background-position:center !important;background-repeat:no-repeat !important;}.PLUGIN .card__title{margin-top:0 !important;padding-left:20px !important;font-size:1.3em !important;font-weight:bold !important;text-align:left !important;flex-shrink:0 !important;width:25% !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;color:inherit !important;display:block !important;}.PLUGIN .card__age{flex-grow:1 !important;display:none;border:none !important;margin:0 !important;padding:0 20px !important;position:relative !important;text-align:left !important;overflow:hidden !important;}.PLUGIN .card__age .card__epg-title{font-size:1.1em;opacity:0.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.PLUGIN .card__age .card__epg-progress{position:absolute;bottom:-5px;left:20px;right:20px;height:2px;background-color:#ffd700;width:0%;}.PLUGIN .card__icons{position:static !important;display:flex !important;align-items:center !important;margin-left:auto !important;}.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}.PLUGIN .js-layer--hidden{visibility:hidden;}.PLUGIN .js-layer--visible{visibility:visible;}#PLUGIN{float:right;padding:1.2em 0;width:30%;}.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5;}.PLUGIN-details__title{font-size:4em;font-weight:700;}.PLUGIN-details__program{padding-top:4em;}.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5;}.PLUGIN-details__program-list>div+div{margin-top:1em;}.PLUGIN-details__program>div+div{margin-top:2em;}.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300;}.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative;}.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em;}.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0;}.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width:100%;}</style>';
 
 Lampa.Template.add(plugin.component + '_style', customCss.replace(/PLUGIN/g, plugin.component));
 $('body').append(Lampa.Template.get(plugin.component + '_style', {}, true));
@@ -559,7 +554,6 @@ function pluginPage(object) {
 				}
 				listCfg['epgUrl'] = listCfg['url-tvg'] || listCfg['x-tvg-url'] || '';
 				listCfg['epgCode'] = utils.hash36(listCfg['epgUrl'].toLowerCase().replace(/https:\/\//g, 'http://'));
-				console.log(plugin.name, 'epgCode', listCfg['epgCode']);
 				listCfg['isEpgIt999'] = ["0", "4v7a2u",   "skza0s",  "oj8j5z", "sab9bx", "rv7awh",  "2blr83"].indexOf(listCfg['epgCode']) >= 0;
 				listCfg['isYosso'] = ["godxcd"].indexOf(listCfg['epgCode']) >= 0;
 				if (/^https?:\/\/.+/i.test(listCfg['epgUrl']) && listCfg['epgUrl'].length < 8000) {
@@ -820,7 +814,6 @@ function pluginPage(object) {
 		var catEpg = [];
 		var chIndex = 0;
 		var _this2 = this;
-		var lazyLoadImg = ('loading' in HTMLImageElement.prototype);
 		layerCards = null;
 		var bulkFn = bulkWrapper(function (channel) {
 				var chI = chIndex++;
@@ -834,44 +827,41 @@ function pluginPage(object) {
 					.addClass('js-layer--hidden')
 				;
 				if (chI < layerCnt) card.addClass('js-layer--visible');
-
-				/* ЛОГОТИПИ: справжній <img> з onload/onerror-fallback,
-				   а не CSS background-image (без обробки помилок картинка
-				   мовчки лишається порожньою при мертвому посиланні). */
+				
 				var imgWrapper = card.find('.card__view');
-				var img = card.find('.card__img')[0];
-				if (lazyLoadImg) img.loading = (chI < 18 ? 'eager' : 'lazy');
-				img.onload = function () {
+				card.find('.card__img').remove();
+				
+				// АВТОМАТИЧНИЙ ПОШУК ЛОГОТИПІВ ЗА НАЗВОЮ КАНАЛУ (якщо немає tvg-logo в плейлисті)
+				var logoUrl = channel['tvg-logo'];
+				if (!logoUrl && channel['Title']) {
+					var cleanName = channel['Title'].toLowerCase()
+						.replace(/\s+(hd|uhd|fhd|4k|\+|SD|sd|\s*\(.*\))/gi, '')
+						.replace(/[^a-zа-я0-9]/gi, '_');
+					logoUrl = 'https://epg.rootu.top/picon/' + encodeURIComponent(channel['Title']) + '.png';
+				}
+
+				if (logoUrl) {
+					imgWrapper.css('background-image', 'url("' + logoUrl + '")');
+					// Додаємо обробку помилки завантаження: якщо пікон не знайдено в базі, замінюємо красивою іконкою-плєйлистом замість вбогих літер
+					$('<img/>').attr('src', logoUrl).on('error', function() {
+						imgWrapper.css({
+							'background-image': 'none',
+							'background-color': '#2a2a2a'
+						});
+						imgWrapper.html('<div style="color:#aaa; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:1.4em;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg></div>');
+					});
 					card.addClass('card--loaded');
-				};
-				img.onerror = function (e) {
-					var name = channel.Title
-						.replace(/\s+\(([+-]?\d+)\)/, ' $1').replace(/[-.()\s]+/g, ' ').replace(/(^|\s+)(TV|ТВ)(\s+|$)/i, '$3');
-					var fl = name.replace(/\s+/g, '').length > 5
-						? name.split(/\s+/).map(function(v) {return v.match(/^(\+?\d+|[UF]?HD|4K)$/i) ? v : v.substring(0,1).toUpperCase()}).join('').substring(0,6)
-						: name.replace(/\s+/g, '')
-					;
-					fl = fl.replace(/([UF]?HD|4k|\+\d+)$/i, '<sup>$1</sup>');
-					var hex = (Lampa.Utils.hash(channel.Title) * 1).toString(16);
-					while (hex.length < 6) hex+=hex;
-					hex = hex.substring(0,6);
-					var r = parseInt(hex.slice(0, 2), 16),
-						g = parseInt(hex.slice(2, 4), 16),
-						b = parseInt(hex.slice(4, 6), 16);
-					var hexText = (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? '#000000' : '#FFFFFF';
-					card.find('.card__img').replaceWith('<div class="card__img">' + fl + '</div>');
-					imgWrapper.css({'background-color': '#' + hex, 'color': hexText});
-					channel['tvg-logo'] = '';
+				} else {
+					imgWrapper.css({'background-color': '#2a2a2a'});
 					card.addClass('card--loaded');
-				};
-				if (channel['tvg-logo']) img.src = channel['tvg-logo']; else img.onerror();
+				}
 
 				var favIcon = $('<div class="card__icon icon--book hide"></div>');
 				card.find('.card__icons-inner').append(favIcon);
 				var tvgDay = parseInt(
 					channel['catchup-days'] || channel['tvg-rec'] || channel['timeshift']
 					|| listCfg['catchup-days'] || listCfg['tvg-rec'] || listCfg['timeshift']
-					|| '0'
+					|| '0' 
 				);
 				if (parseInt('catchup-enable' in channel ? channel['catchup-enable'] : tvgDay) > 0) {
 					card.find('.card__icons-inner').append('<div class="card__icon icon--timeshift"></div>');
@@ -888,7 +878,7 @@ function pluginPage(object) {
 					var video = {
 						title: channel.Title,
 						url: prepareUrl(channel.Url),
-						thumbnail: channel['tvg-logo'],
+						thumbnail: logoUrl,
 						plugin: plugin.component,
 						iptv: true,
 						tv: true
@@ -1093,7 +1083,6 @@ function pluginPage(object) {
 										title: 'Архив',
 										items: archiveMenu,
 										onSelect: function (sel) {
-											console.log(plugin.name, 'catchupUrl: ' + sel.catchupUrl, epg.slice(0,2));
 											var video = {
 												title: sel.title,
 												url: sel.url,
@@ -1131,10 +1120,8 @@ function pluginPage(object) {
 									.replace(/\s*\((19\d\d|20[01]\d|202[0-4])\)\s*(\*\s.+)?$/, '')
 									.replace(/[.,]\s*(\d+(-й)?\s+(с-н|сезон)|(с-н|сезон)\s+\d+|[s][-.\s]*\d+(-й)?)?[-.,\s]*(\d+(-\d+|-я)?\s*(сери.|эпизоды?|episode|[cс]|ep?)\.?|(сери.|эпизоды?|episode|[cс]|ep?)[-.]?\s*\d+).*$/i,'')
 									.replace(/\s*(\d+(-й)?\s+(с-н|сезон)|(с-н|сезон)\s+\d+|[s][-.\s]*\d+(-й)?)?[-.,\s]*(\d+(-\d+|-я)?\s*(сери.|эпизоды?|episode|[cс]|ep?)\.?|(сери.|эпизоды?|episode|[cс]|ep?)[-.]?\s*\d+)\.?/i,'')
-
 									.replace(/\.\s+Дайджест\s*$/i, '')
 									.replace(/\.?\s*\(([cCсСeE](ерия|pisode)?[-.]?\s*\d+|\d+(-[^)\s]+)?\s+[Сс]ерия)\)/,'')
-
 									.replace(/\.[^.:]+:\s*[Чч](асть|\.)\s+\d+\S*$/,'')
 									.replace(/\.\s*Сборник\s+\d+\S*\s*$/i,'')
 									.replace(/\s*[\[(]?(\d|1\d|2[0-5])\+[\])]?[.\s]*$/, '')
@@ -1153,7 +1140,6 @@ function pluginPage(object) {
 								if (flussonic) {
 									url = url.replace('${(d)S}', 'now');
 								}
-								console.log(plugin.name, 'catchupUrl: ' + url, epg.slice(0,2));
 								var video = {
 									title: channel.Title,
 									url: prepareUrl(url, epg),
@@ -1317,7 +1303,7 @@ function pluginPage(object) {
 			if (!channel['tvg-logo']) {
 				if (channel['epgId'] && (listCfg['isEpgIt999'] || isSNG) && /^\d{1,4}$/.test(channel['epgId'])) {
 					channel['tvg-logo'] = Lampa.Utils.protocol() + 'epg.one/img2/' + channel['epgId'] + '.png'
-				} else if (!/^Ch \d+$/.test(channel['Title'])) {
+				} else if (isSNG && !/^Ch \d+$/.test(channel['Title'])) {
 					channel['tvg-logo'] = Lampa.Utils.protocol() + 'epg.rootu.top/picon/'
 						+ encodeURIComponent(channel['Title']) + '.png';
 				}
@@ -1387,7 +1373,7 @@ function pluginPage(object) {
 		});
 	};
 	this.start = function () {
-		if (Lampa.Activity.active().activity !== this.activity) return;
+		if (Lampa.Activity.active().activity !== this.activity) return; 
 		var _this = this;
 		Lampa.Controller.add('content', {
 			toggle: function toggle() {
@@ -1736,7 +1722,7 @@ function addSettings(type, param) {
 		component: plugin.component,
 		param: {
 			name: plugin.component + '_' + param.name,
-			type: type,
+			type: type, 
 			values: !param.values ? '' : param.values,
 			placeholder: !param.placeholder ? '' : param.placeholder,
 			default: (typeof param.default === 'undefined') ? '' : param.default
@@ -1912,7 +1898,6 @@ function pluginStart() {
 	console.log(plugin.name, 'plugin start', menu.length, lists.length, isSNG);
 }
 
-console.log(plugin.name, 'plugin ready start', !!window.appready ? 'now' : 'waiting event ready');
 if (!!window.appready) pluginStart();
 else Lampa.Listener.follow('app', function(e){if (e.type === 'ready') pluginStart()});
 })();
