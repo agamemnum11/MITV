@@ -1317,7 +1317,7 @@ function pluginPage(object) {
 			if (!channel['tvg-logo']) {
 				if (channel['epgId'] && (listCfg['isEpgIt999'] || isSNG) && /^\d{1,4}$/.test(channel['epgId'])) {
 					channel['tvg-logo'] = Lampa.Utils.protocol() + 'epg.one/img2/' + channel['epgId'] + '.png'
-				} else if (isSNG && !/^Ch \d+$/.test(channel['Title'])) {
+				} else if (!/^Ch \d+$/.test(channel['Title'])) {
 					channel['tvg-logo'] = Lampa.Utils.protocol() + 'epg.rootu.top/picon/'
 						+ encodeURIComponent(channel['Title']) + '.png';
 				}
