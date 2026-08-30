@@ -340,6 +340,8 @@ function keydown(e) {
 		} else if (code >= 96 && code <= 105) { 
 			isStopEvent = channelSwitch(code - 96);
 		}
+		if (code === 38 || code === 29460) { 
+		}
 		if (isStopEvent) {
 			e.event.preventDefault();
 			e.event.stopPropagation();
@@ -831,24 +833,25 @@ function pluginPage(object) {
 				var imgWrapper = card.find('.card__view');
 				card.find('.card__img').remove();
 				
-				// АВТОМАТИЧНИЙ ПОШУК ЛОГОТИПІВ ЗА НАЗВОЮ КАНАЛУ (якщо немає tvg-logo в плейлисті)
+				// УНІВЕРСАЛЬНИЙ МЕХАНІЗМ ОТРИМАННЯ ЛОГОТИПУ З БАЗИ АБО ПЛЕЙЛИСТА
 				var logoUrl = channel['tvg-logo'];
-				if (!logoUrl && channel['Title']) {
-					var cleanName = channel['Title'].toLowerCase()
-						.replace(/\s+(hd|uhd|fhd|4k|\+|SD|sd|\s*\(.*\))/gi, '')
-						.replace(/[^a-zа-я0-9]/gi, '_');
+				if (!logoUrl && channel['epgId']) {
+					// Якщо в плейлисті нема logo, але визначився epgId, беремо з базової бази піконів epg.rootu.top
+					logoUrl = 'https://epg.rootu.top/picon/' + channel['epgId'] + '.png';
+				} else if (!logoUrl && channel['Title']) {
+					// Якщо зовсім пусто, пробуємо сформувати за назвою каналу через сервери tvoetv або rootu
 					logoUrl = 'https://epg.rootu.top/picon/' + encodeURIComponent(channel['Title']) + '.png';
 				}
 
 				if (logoUrl) {
 					imgWrapper.css('background-image', 'url("' + logoUrl + '")');
-					// Додаємо обробку помилки завантаження: якщо пікон не знайдено в базі, замінюємо красивою іконкою-плєйлистом замість вбогих літер
+					// Захист від битих посилань (якщо картинка не знайшлася, ставимо фірмову нейтральну іконку замість сірої пустоти)
 					$('<img/>').attr('src', logoUrl).on('error', function() {
 						imgWrapper.css({
 							'background-image': 'none',
 							'background-color': '#2a2a2a'
 						});
-						imgWrapper.html('<div style="color:#aaa; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:1.4em;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg></div>');
+						imgWrapper.html('<div style="color:#777; width:100%; height:100%; display:flex; align-items:center; justify-content:center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg></div>');
 					});
 					card.addClass('card--loaded');
 				} else {
@@ -892,14 +895,14 @@ function pluginPage(object) {
 						playlistForExtrnalPlayer[j] = {
 							title: elem.Title,
 							url: videoUrl,
-							thumbnail: elem['tvg-logo'],
+							thumbnail: elem['tvg-logo'] || logoUrl,
 							iptv: true,
 							tv: true
 						};
 						playlist.push({
 							title: ++i + '. ' + elem.Title,
 							url: videoUrl,
-							thumbnail: elem['tvg-logo'],
+							thumbnail: elem['tvg-logo'] || logoUrl,
 							plugin: plugin.component,
 							iptv: true,
 							tv: true
@@ -1532,7 +1535,7 @@ langAdd('settings_list_url_desc0',
 	{
 		ru: 'По умолчанию используется плейлист из проекта <i>https://github.com/Free-TV/IPTV</i><br>Вы можете заменить его на свой.',
 		uk: 'За замовчуванням використовується плейлист із проекту <i>https://github.com/Free-TV/IPTV</i><br>Ви можете замінити його на свій.',
-		be: 'Па змаўчанні выкарыстоўваецца плэйліст з праекта <i>https://github.com/Free-TV/IPTV</i><br> Вы можаце замяніць яго на свой.',
+		be: 'Па змаўчанні выкарыстоўваецца плэйліст з праекта <i>https://github.com/Free-TV/IPTV</i><br> Вы можаце заміняць яго на свой.',
 		en: 'The default playlist is from the project <i>https://github.com/Free-TV/IPTV</i><br>You can replace it with your own.',
 		zh: '默认播放列表来自项目 <i>https://github.com/Free-TV/IPTV</i><br>您可以将其替换为您自己的。'
 	}
