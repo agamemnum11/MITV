@@ -100,7 +100,7 @@ function channelSwitch(dig, isChNum) {
 	var number = parseInt(chNumber);
 	if (number && number <= cnt) {
 		if (!!chTimeout) clearTimeout(chTimeout);
-		stopRemoveChElement = true; // fix removing element in callback on animate.finish()
+		stopRemoveChElement = true;
 		chNumEl.text(playlist[number - 1].title);
 		if (isChNum || parseInt(chNumber + '0') > cnt) {
 			chHelper.finish().hide().fadeOut(0);
@@ -268,10 +268,10 @@ function catchupUrl(url, type, source) {
 		case 'append':
 			if (source) {
 				newUrl = (source.search(/^https?:\/\//i) === 0 ? '' : url) + source;
-				break; 
+				break;
 			}
-		case 'timeshift': 
-		case 'shift': 
+		case 'timeshift':
+		case 'shift':
 			newUrl = (source || url);
 			newUrl += (newUrl.indexOf('?') >= 0 ? '&' : '?') + 'utc=${start}&lutc=${timestamp}';
 			return newUrl;
@@ -319,30 +319,30 @@ function keydown(e) {
 		if (!isPluginPlaylist(playlist)) return;
 		var isStopEvent = false;
 		var curCh = cache('curCh') || (Lampa.PlayerPlaylist.position() + 1);
-		if (code === 428 || code === 34 
-			|| ((code === 37 || code === 4) 
+		if (code === 428 || code === 34
+			|| ((code === 37 || code === 4)
 				&& !$('.player.tv .panel--visible .focus').length
 				&& !$('.player.tv .player-footer.open .focus').length
 			)
 		) {
-			curCh = curCh === 1 ? playlist.length : curCh - 1; 
+			curCh = curCh === 1 ? playlist.length : curCh - 1;
 			cache('curCh', curCh, 1000);
 			isStopEvent = channelSwitch(curCh, true);
-		} else if (code === 427 || code === 33 
-			|| ((code === 39 || code === 5) 
+		} else if (code === 427 || code === 33
+			|| ((code === 39 || code === 5)
 				&& !$('.player.tv .panel--visible .focus').length
 				&& !$('.player.tv .player-footer.open .focus').length
 			)
 		) {
-			curCh = curCh === playlist.length ? 1 : curCh + 1; 
+			curCh = curCh === playlist.length ? 1 : curCh + 1;
 			cache('curCh', curCh, 1000);
 			isStopEvent = channelSwitch(curCh, true);
-		} else if (code >= 48 && code <= 57) { 
+		} else if (code >= 48 && code <= 57) {
 			isStopEvent = channelSwitch(code - 48);
-		} else if (code >= 96 && code <= 105) { 
+		} else if (code >= 96 && code <= 105) {
 			isStopEvent = channelSwitch(code - 96);
 		}
-		if (code === 38 || code === 29460) { 
+		if (code === 38 || code === 29460) {
 		}
 		if (isStopEvent) {
 			e.event.preventDefault();
@@ -448,7 +448,8 @@ function networkSilentSessCache(url, success, fail, param) {
 	}
 }
 
-var customCss = '<style>#PLUGIN_epg{margin-right:1em}.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}.PLUGIN.category-full{padding-bottom:10em}.PLUGIN .card{width:100% !important;display:flex !important;flex-direction:row !important;align-items:center !important;padding:10px 15px !important;box-sizing:border-box !important;background:rgba(255,255,255,0.05) !important;margin-bottom:6px !important;border-radius:8px !important;transition:background 0.2s,transform 0.2s;position:relative;}.PLUGIN .card.focus{background:rgba(255,215,0,0.15) !important;transform:scale(1.01);color:#ffd700 !important;}.PLUGIN .card.focus::before{content:\'\';position:absolute;left:0;top:0;bottom:0;width:6px;background-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,0.8);border-radius:8px 0 0 8px;}.PLUGIN div.card__view{width:90px !important;height:55px !important;padding:0 !important;position:relative !important;flex-shrink:0 !important;border-radius:6px !important;overflow:hidden !important;background-color:rgba(255,255,255,0.08);background-size:contain !important;background-position:center !important;background-repeat:no-repeat !important;}.PLUGIN .card__title{margin-top:0 !important;padding-left:20px !important;font-size:1.3em !important;font-weight:bold !important;text-align:left !important;flex-shrink:0 !important;width:25% !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;color:inherit !important;display:block !important;}.PLUGIN .card__age{flex-grow:1 !important;display:none;border:none !important;margin:0 !important;padding:0 20px !important;position:relative !important;text-align:left !important;overflow:hidden !important;}.PLUGIN .card__age .card__epg-title{font-size:1.1em;opacity:0.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.PLUGIN .card__age .card__epg-progress{position:absolute;bottom:-5px;left:20px;right:20px;height:2px;background-color:#ffd700;width:0%;}.PLUGIN .card__icons{position:static !important;display:flex !important;align-items:center !important;margin-left:auto !important;}.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}.PLUGIN .js-layer--hidden{visibility:hidden;}.PLUGIN .js-layer--visible{visibility:visible;}#PLUGIN{float:right;padding:1.2em 0;width:30%;}.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5;}.PLUGIN-details__title{font-size:4em;font-weight:700;}.PLUGIN-details__program{padding-top:4em;}.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5;}.PLUGIN-details__program-list>div+div{margin-top:1em;}.PLUGIN-details__program>div+div{margin-top:2em;}.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300;}.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative;}.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em;}.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0;}.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width:100%;}</style>';
+/* ===== СТИЛІ: список замість плиток + золотий фокус + фіксований розмір лого ===== */
+var customCss = '<style>#PLUGIN_epg{margin-right:1em}.PLUGIN-program__desc{font-size:0.9em;margin:0.5em;text-align:justify;max-height:15em;overflow:hidden;}.PLUGIN.category-full{padding-bottom:10em}.PLUGIN .card{width:100% !important;display:flex !important;flex-direction:row !important;align-items:center !important;padding:10px 15px !important;box-sizing:border-box !important;background:rgba(255,255,255,0.05) !important;margin-bottom:6px !important;border-radius:8px !important;transition:background 0.2s,transform 0.2s;position:relative;}.PLUGIN .card.focus{background:rgba(255,215,0,0.15) !important;transform:scale(1.01);color:#ffd700 !important;}.PLUGIN .card.focus::before{content:\'\';position:absolute;left:0;top:0;bottom:0;width:6px;background-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,0.8);border-radius:8px 0 0 8px;}.PLUGIN div.card__view{width:90px !important;height:55px !important;padding:0 !important;position:relative !important;flex-shrink:0 !important;border-radius:6px !important;overflow:hidden !important;background-color:rgba(255,255,255,0.08);}.PLUGIN img.card__img,.PLUGIN div.card__img{background-color:unset !important;border-radius:unset !important;position:absolute !important;top:50% !important;left:50% !important;-moz-transform:translate(-50%,-50%) !important;-webkit-transform:translate(-50%,-50%) !important;transform:translate(-50%,-50%) !important;max-height:92% !important;max-width:92% !important;height:auto !important;width:auto !important;font-size:1em !important;}.PLUGIN .card__title{margin-top:0 !important;padding-left:20px !important;font-size:1.3em !important;font-weight:bold !important;text-align:left !important;flex-shrink:0 !important;width:25% !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;color:inherit !important;display:block !important;}.PLUGIN .card__age{flex-grow:1 !important;display:none;border:none !important;margin:0 !important;padding:0 20px !important;position:relative !important;text-align:left !important;overflow:hidden !important;}.PLUGIN .card__age .card__epg-title{font-size:1.1em;opacity:0.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.PLUGIN .card__age .card__epg-progress{position:absolute;bottom:-5px;left:20px;right:20px;height:2px;background-color:#ffd700;width:0%;}.PLUGIN .card__icons{position:static !important;display:flex !important;align-items:center !important;margin-left:auto !important;}.PLUGIN .card__icon.icon--timeshift{background-image:url(https://epg.rootu.top/img/icon/timeshift.svg);}.PLUGIN .js-layer--hidden{visibility:hidden;}.PLUGIN .js-layer--visible{visibility:visible;}#PLUGIN{float:right;padding:1.2em 0;width:30%;}.PLUGIN-details__group{font-size:1.3em;margin-bottom:.9em;opacity:.5;}.PLUGIN-details__title{font-size:4em;font-weight:700;}.PLUGIN-details__program{padding-top:4em;}.PLUGIN-details__program-title{font-size:1.2em;padding-left:4.9em;margin-top:1em;margin-bottom:1em;opacity:.5;}.PLUGIN-details__program-list>div+div{margin-top:1em;}.PLUGIN-details__program>div+div{margin-top:2em;}.PLUGIN-program{display:flex;font-size:1.2em;font-weight:300;}.PLUGIN-program__time{flex-shrink:0;width:5em;position:relative;}.PLUGIN-program.focus .PLUGIN-program__time::after{content:\'\';position:absolute;top:.5em;right:.9em;width:.4em;background-color:#fff;height:.4em;border-radius:100%;margin-top:-0.1em;font-size:1.2em;}.PLUGIN-program__progressbar{width:10em;height:0.3em;border:0.05em solid #fff;border-radius:0.05em;margin:0.5em 0.5em 0 0;}.PLUGIN-program__progress{height:0.25em;border:0.05em solid #fff;background-color:#fff;max-width:100%;}</style>';
 
 Lampa.Template.add(plugin.component + '_style', customCss.replace(/PLUGIN/g, plugin.component));
 $('body').append(Lampa.Template.get(plugin.component + '_style', {}, true));
@@ -469,7 +470,6 @@ function pluginPage(object) {
 		over: true,
 		step: 250
 	});
-	// var items = [];
 	var html = $('<div></div>');
 	var body = $('<div class="' + plugin.component + ' category-full"></div>');
 	body.toggleClass('square_icons', getSettings('square_icons'));
@@ -551,7 +551,6 @@ function pluginPage(object) {
 				var m, mm, channelsUri = 'channels';
 				var l = data.split(/\r?\n/, 2)[0];
 				if (!!(m = l.match(/([^\s=]+)=((["'])(.*?)\3|\S+)/g))) {
-					// listCfg
 					for (var jj = 0; jj < m.length; jj++) {
 						if (!!(mm = m[jj].match(/([^\s=]+)=((["'])(.*?)\3|\S+)/))) {
 							listCfg[mm[1].toLowerCase()] = mm[4] || (mm[3] ? '' : mm[2]);
@@ -561,7 +560,6 @@ function pluginPage(object) {
 				listCfg['epgUrl'] = listCfg['url-tvg'] || listCfg['x-tvg-url'] || '';
 				listCfg['epgCode'] = utils.hash36(listCfg['epgUrl'].toLowerCase().replace(/https:\/\//g, 'http://'));
 				console.log(plugin.name, 'epgCode', listCfg['epgCode']);
-				/* epg.it999.ru epgCode [def  epg2.xml.gz epg.xml.gz epg2.xml  epg2xml   ru2.xml.gz ru.xml.gz] */
 				listCfg['isEpgIt999'] = ["0", "4v7a2u",   "skza0s",  "oj8j5z", "sab9bx", "rv7awh",  "2blr83"].indexOf(listCfg['epgCode']) >= 0;
 				listCfg['isYosso'] = ["godxcd"].indexOf(listCfg['epgCode']) >= 0;
 				if (/^https?:\/\/.+/i.test(listCfg['epgUrl']) && listCfg['epgUrl'].length < 8000) {
@@ -822,6 +820,7 @@ function pluginPage(object) {
 		var catEpg = [];
 		var chIndex = 0;
 		var _this2 = this;
+		var lazyLoadImg = ('loading' in HTMLImageElement.prototype);
 		layerCards = null;
 		var bulkFn = bulkWrapper(function (channel) {
 				var chI = chIndex++;
@@ -835,16 +834,17 @@ function pluginPage(object) {
 					.addClass('js-layer--hidden')
 				;
 				if (chI < layerCnt) card.addClass('js-layer--visible');
-				
-				// ЗМІНА ДЛЯ ЛОГОТИПІВ ТУТ: Видаляємо img і використовуємо background-image
+
+				/* ЛОГОТИПИ: справжній <img> з onload/onerror-fallback,
+				   а не CSS background-image (без обробки помилок картинка
+				   мовчки лишається порожньою при мертвому посиланні). */
 				var imgWrapper = card.find('.card__view');
-				card.find('.card__img').remove(); // Видаляємо стандартний тег img
-				
-				if (channel['tvg-logo']) {
-					imgWrapper.css('background-image', 'url("' + channel['tvg-logo'] + '")');
+				var img = card.find('.card__img')[0];
+				if (lazyLoadImg) img.loading = (chI < 18 ? 'eager' : 'lazy');
+				img.onload = function () {
 					card.addClass('card--loaded');
-				} else {
-					// Якщо лого немає, генеруємо текстову заглушку
+				};
+				img.onerror = function (e) {
 					var name = channel.Title
 						.replace(/\s+\(([+-]?\d+)\)/, ' $1').replace(/[-.()\s]+/g, ' ').replace(/(^|\s+)(TV|ТВ)(\s+|$)/i, '$3');
 					var fl = name.replace(/\s+/g, '').length > 5
@@ -859,18 +859,19 @@ function pluginPage(object) {
 						g = parseInt(hex.slice(2, 4), 16),
 						b = parseInt(hex.slice(4, 6), 16);
 					var hexText = (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? '#000000' : '#FFFFFF';
-					
-					imgWrapper.css({'background-color': '#' + hex});
-					imgWrapper.append('<div style="color:' + hexText + '; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2em;">' + fl + '</div>');
+					card.find('.card__img').replaceWith('<div class="card__img">' + fl + '</div>');
+					imgWrapper.css({'background-color': '#' + hex, 'color': hexText});
+					channel['tvg-logo'] = '';
 					card.addClass('card--loaded');
-				}
+				};
+				if (channel['tvg-logo']) img.src = channel['tvg-logo']; else img.onerror();
 
 				var favIcon = $('<div class="card__icon icon--book hide"></div>');
 				card.find('.card__icons-inner').append(favIcon);
 				var tvgDay = parseInt(
 					channel['catchup-days'] || channel['tvg-rec'] || channel['timeshift']
 					|| listCfg['catchup-days'] || listCfg['tvg-rec'] || listCfg['timeshift']
-					|| '0' 
+					|| '0'
 				);
 				if (parseInt('catchup-enable' in channel ? channel['catchup-enable'] : tvgDay) > 0) {
 					card.find('.card__icons-inner').append('<div class="card__icon icon--timeshift"></div>');
@@ -1139,7 +1140,6 @@ function pluginPage(object) {
 									.replace(/\s*[\[(]?(\d|1\d|2[0-5])\+[\])]?[.\s]*$/, '')
 									.replace(/\s*(\(\)|\[])/, '')
 								;
-								// Lampa.Controller.toContent();
 								Lampa.Search.open({input: search});
 							} else if (!!sel.restartProgram) {
 								var epg = EPG[channel['epgId']][2][0];
@@ -1166,12 +1166,11 @@ function pluginPage(object) {
 									time: 11,
 									percent: 0,
 									handler: function(){},
-									//hash: '',
 									duration: (epg[1] * 60)
 								};
 								Lampa.Controller.toggle('content');
 								Lampa.Player.runas && Lampa.Player.runas(Lampa.Storage.field('player_iptv'));
-								Lampa.Player.play(video);//Lampa.PlayerVideo.to(0)
+								Lampa.Player.play(video);
 								Lampa.Player.runas && Lampa.Player.runas(Lampa.Storage.field('player_iptv'));
 							} else if (!!sel.epgToggle) {
 								var isView = !getStorage('epg', false);
@@ -1223,23 +1222,18 @@ function pluginPage(object) {
 			{
 				bulk: 18,
 				onEnd: function (last, total, left) {
-					// body.find('.layer--render').removeClass('layer--render');
 					_this2.activity.loader(false);
 					_this2.activity.toggle();
 					if (chIndex > layerCnt) {
 						layerFocusI = 0;
 						layerCards = body.find('.js-layer--hidden');
 					}
-					// Lampa.Layer.visible(scroll.render(true));
 				}
 			});
 		data.forEach(function (channel) {
 			bulkFn(channel);
 			if (!!channel['epgId'] && catEpg.indexOf(channel['epgId']) === -1) catEpg.push(channel['epgId']);
 		});
-		// var catEpgString = catEpg.sort(function(a,b){return a-b}).join('-');
-		// var catEpgHash = utils.hash36(catEpgString);
-		// console.log('Epg', catEpgHash, catEpgString, data);
 	};
 	function setEpgId(channelGroup) {
 		if (channelGroup.setEpgId || !channelGroup.channels || !listCfg['epgApiChUrl']) return;
@@ -1317,9 +1311,6 @@ function pluginPage(object) {
 			channel['epgId'] = (listCfg['isEpgIt999'] || listCfg['isYosso'])
 				? (channel['tvg-id'] && /^\d{1,4}$/.test(channel['tvg-id']) ? channel['tvg-id'] : epgIdByName(channel['Title'], true, channel['tvg-id']))
 				: (chIDs.id2epg[channel['tvg-id'] || ''] || epgIdByName(channel['Title'], isSNG, channel['tvg-id']) || channel['tvg-id']);
-			/*if (isSNG && !/^\d+$/.test(channel['epgId'])) {
-				channel['epgId'] = epgIdByName(channel['Title'], isSNG) || channel['epgId'];
-			}*/
 			if (!channel['tvg-logo'] && channel['epgId'] && !!chIDs.piconUrl) {
 				channel['tvg-logo'] = Lampa.Utils.protocol() + chIDs.piconUrl.replace('{picon}', (chIDs.id2picon && chIDs.id2picon[channel['epgId']]) ? chIDs.id2picon[channel['epgId']] : channel['epgId']);
 			}
@@ -1396,7 +1387,7 @@ function pluginPage(object) {
 		});
 	};
 	this.start = function () {
-		if (Lampa.Activity.active().activity !== this.activity) return; 
+		if (Lampa.Activity.active().activity !== this.activity) return;
 		var _this = this;
 		Lampa.Controller.add('content', {
 			toggle: function toggle() {
@@ -1745,7 +1736,7 @@ function addSettings(type, param) {
 		component: plugin.component,
 		param: {
 			name: plugin.component + '_' + param.name,
-			type: type, 
+			type: type,
 			values: !param.values ? '' : param.values,
 			placeholder: !param.placeholder ? '' : param.placeholder,
 			default: (typeof param.default === 'undefined') ? '' : param.default
@@ -1837,7 +1828,6 @@ function configurePlaylist(i) {
 }
 
 Lampa.Component.add(plugin.component, pluginPage);
-// Готовим настройки
 Lampa.SettingsApi.addComponent(plugin);
 addSettings(
 	'trigger',
@@ -1909,7 +1899,6 @@ if (!UID) {
 }
 addSettings('title', {title: langGet('uid')});
 addSettings('static', {title: UID, description: langGet('unique_id')});
-//~ Готовим настройки
 
 function pluginStart() {
 	if (!!window['plugin_' + plugin.component + '_ready']) {
